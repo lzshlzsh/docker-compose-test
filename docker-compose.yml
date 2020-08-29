@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  zookeeper:
+    image: zookeeper
+    ports:
+      - "2181:2181"
+    restart: always
+
+  kafka:
+    image: wurstmeister/kafka
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      HOSTNAME_COMMAND: "ifconfig eth0  | awk '/inet/{print $$2}' | awk -F':' '{print $$NF}'"
