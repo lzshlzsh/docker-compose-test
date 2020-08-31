@@ -59,6 +59,8 @@ services:
         mode: host
     environment:
       ELASTICSEARCH_HOSTS: http://es:9200
+    depends_on:
+      - es
 
 volumes:
   zkDataDir:
