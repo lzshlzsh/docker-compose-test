@@ -62,8 +62,23 @@ services:
     depends_on:
       - es
 
+  mysql:
+    image: mysql:5.7
+    ports:
+      - target: 3306
+        published: 3307
+        protocol: tcp
+        mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - type: volume
+        source: mysql
+        target: /var/lib/mysql
+
 volumes:
   zkDataDir:
   zkDataLogDir:
   kafka:
   es:
+  mysql:
