@@ -64,6 +64,7 @@ services:
 
   mysql:
     image: mysql:5.7
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123
     ports:
       - target: 3306
         published: 3307
@@ -75,6 +76,23 @@ services:
       - type: volume
         source: mysql
         target: /var/lib/mysql
+
+  debezium_connect:
+    image: debezium/connect:1.3
+    ports:
+      - target: 8083
+        published: 8083
+        protocol: tcp
+        mode: host
+    environment:
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+      BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - zookeeper
+      - kafka
+      - mysql
 
 volumes:
   zkDataDir:
