@@ -94,6 +94,12 @@ services:
       - kafka
       - mysql
 
+  canal_connect:
+    image: canal/canal-server:v1.1.4
+    depends_on:
+      - kafka
+      - mysql
+
 volumes:
   zkDataDir:
   zkDataLogDir:
