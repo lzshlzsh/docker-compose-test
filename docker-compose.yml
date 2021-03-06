@@ -100,9 +100,37 @@ services:
       - kafka
       - mysql
 
+  clickhouse:
+    image: yandex/clickhouse-server:20.8
+    ports:
+      - target: 8123
+        published: 8123
+        protocol: tcp
+        mode: host
+    #      - target: 9000
+    #        published: 9000
+    #        protocol: tcp
+    #        mode: host
+    volumes:
+      - type: volume
+        source: clickhouse
+        target: /var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  clickhouse_client:
+    image: yandex/clickhouse-client:20.8
+    command: --host clickhouse
+    stdin_open: true
+    tty: true
+    depends_on:
+      - clickhouse
 volumes:
   zkDataDir:
   zkDataLogDir:
   kafka:
   es:
   mysql:
+  clickhouse:
