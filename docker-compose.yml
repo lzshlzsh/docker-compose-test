@@ -127,6 +127,20 @@ services:
     tty: true
     depends_on:
       - clickhouse
+
+  oracle:
+    image: oracleinanutshell/oracle-xe-11g:latest
+    ports:
+      - target: 1521
+        published: 1521
+        protocol: tcp
+        mode: host
+      - target: 5500
+        published: 5500
+        protocol: tcp
+        mode: host
+    environment:
+      ORACLE_ALLOW_REMOTE: "true"
 volumes:
   zkDataDir:
   zkDataLogDir:
