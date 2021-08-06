@@ -95,10 +95,30 @@ services:
       - mysql
 
   canal_connect:
-    image: canal/canal-server:v1.1.4
+    image: canal/canal-server:v1.1.5
+    ports:
+      - target: 11111
+        published: 11111
+        protocol: tcp
+        mode: host
+#      - target: 11110
+#        published: 11110
+#        protocol: tcp
+#        mode: host
+    environment:
+      - canal.instance.global.spring.xml=classpath:spring/default-instance.xml
+      - canal.zkServers=zookeeper:2181
+      - kafka.bootstrap.servers=kafka:9092
+      - canal.serverMode=kafka
+      - canal.instance.master.address=mysql:3306
+      - canal.instance.dbUsername=root
+      - canal.instance.dbPassword=123456
+      - canal.instance.filter.regex=test\..*
+    entrypoint: ["/bin/bash", "-c", "sed -i -e 's/kafka.bootstrap.servers.*/kafka.bootstrap.servers = kafka:9092/' /home/admin/canal-server/conf/canal.properties && /alidata/bin/main.sh /home/admin/app.sh"]
     depends_on:
       - kafka
       - mysql
+      - zookeeper
 
   clickhouse:
     image: yandex/clickhouse-server:20.8
