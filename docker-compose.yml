@@ -28,10 +28,54 @@ services:
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LOG_DIRS: /kafka
+      KAFKA_NUM_PARTITIONS: 3
+      KAFK_DEFAULT_REPLICATION_FACTOR: 3
       HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet addr/{print $$2}' | awk -F':' '{print $$NF}'"
     volumes:
       - type: volume
         source: kafka
+        target: /kafka
+    depends_on:
+      - zookeeper
+      - kafka2
+      - kafka3
+
+  kafka2:
+    image: wurstmeister/kafka:2.13-2.6.0
+#    ports:
+#      - target: 9092
+#        published: 9093
+#        protocol: tcp
+#        mode: host
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LOG_DIRS: /kafka
+      KAFKA_NUM_PARTITIONS: 3
+      KAFK_DEFAULT_REPLICATION_FACTOR: 3
+      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet addr/{print $$2}' | awk -F':' '{print $$NF}'"
+    volumes:
+      - type: volume
+        source: kafka2
+        target: /kafka
+    depends_on:
+      - zookeeper
+
+  kafka3:
+    image: wurstmeister/kafka:2.13-2.6.0
+#    ports:
+#      - target: 9092
+#        published: 9094
+#        protocol: tcp
+#        mode: host
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LOG_DIRS: /kafka
+      KAFKA_NUM_PARTITIONS: 3
+      KAFK_DEFAULT_REPLICATION_FACTOR: 3
+      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet addr/{print $$2}' | awk -F':' '{print $$NF}'"
+    volumes:
+      - type: volume
+        source: kafka3
         target: /kafka
     depends_on:
       - zookeeper
@@ -165,6 +209,8 @@ volumes:
   zkDataDir:
   zkDataLogDir:
   kafka:
+  kafka2:
+  kafka3:
   es:
   mysql:
   clickhouse:
