@@ -17,7 +17,6 @@ services:
         source: zkDataLogDir
         target: /datalog
 
-  # 暴露端口出去，只能启动一个实例
   kafka:
     image: wurstmeister/kafka:2.13-2.6.0
     ports:
@@ -42,11 +41,6 @@ services:
 
   kafka2:
     image: wurstmeister/kafka:2.13-2.6.0
-#    ports:
-#      - target: 9092
-#        published: 9093
-#        protocol: tcp
-#        mode: host
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LOG_DIRS: /kafka
@@ -62,11 +56,6 @@ services:
 
   kafka3:
     image: wurstmeister/kafka:2.13-2.6.0
-#    ports:
-#      - target: 9092
-#        published: 9094
-#        protocol: tcp
-#        mode: host
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LOG_DIRS: /kafka
@@ -145,10 +134,10 @@ services:
         published: 11111
         protocol: tcp
         mode: host
-#      - target: 11110
-#        published: 11110
-#        protocol: tcp
-#        mode: host
+    #      - target: 11110
+    #        published: 11110
+    #        protocol: tcp
+    #        mode: host
     environment:
       - canal.instance.global.spring.xml=classpath:spring/default-instance.xml
       - canal.zkServers=zookeeper:2181
@@ -158,27 +147,101 @@ services:
       - canal.instance.dbUsername=root
       - canal.instance.dbPassword=123456
       - canal.instance.filter.regex=test\..*
-    entrypoint: ["/bin/bash", "-c", "sed -i -e 's/kafka.bootstrap.servers.*/kafka.bootstrap.servers = kafka:9092/' /home/admin/canal-server/conf/canal.properties && /alidata/bin/main.sh /home/admin/app.sh"]
+    entrypoint: [ "/bin/bash", "-c", "sed -i -e 's/kafka.bootstrap.servers.*/kafka.bootstrap.servers = kafka:9092/' /home/admin/canal-server/conf/canal.properties && /alidata/bin/main.sh /home/admin/app.sh" ]
     depends_on:
       - kafka
       - mysql
       - zookeeper
 
   clickhouse:
-    image: yandex/clickhouse-server:20.8
+    image: yandex/clickhouse-server:21.9
     ports:
       - target: 8123
         published: 8123
         protocol: tcp
         mode: host
-    #      - target: 9000
-    #        published: 9000
-    #        protocol: tcp
-    #        mode: host
+      - target: 9000
+        published: 9000
+        protocol: tcp
+        mode: host
     volumes:
       - type: volume
         source: clickhouse
-        target: /var/lib/clickhouse
+        target: /data/clickhouse/clickhouse-server
+      - ./conf/metrika.xml:/etc/clickhouse-server/metrika.xml
+      - ./conf/config.xml:/etc/clickhouse-server/config.xml
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    depends_on:
+      - zookeeper
+      - clickhouse2
+      - clickhouse3
+      - clickhouse4
+      - clickhouse5
+      - clickhouse6
+
+  clickhouse2:
+    image: yandex/clickhouse-server:21.9
+    volumes:
+      - type: volume
+        source: clickhouse2
+        target: /data/clickhouse/clickhouse-server
+      - ./conf/metrika2.xml:/etc/clickhouse-server/metrika.xml
+      - ./conf/config.xml:/etc/clickhouse-server/config.xml
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  clickhouse3:
+    image: yandex/clickhouse-server:21.9
+    volumes:
+      - type: volume
+        source: clickhouse3
+        target: /data/clickhouse/clickhouse-server
+      - ./conf/metrika3.xml:/etc/clickhouse-server/metrika.xml
+      - ./conf/config.xml:/etc/clickhouse-server/config.xml
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  clickhouse4:
+    image: yandex/clickhouse-server:21.9
+    volumes:
+      - type: volume
+        source: clickhouse4
+        target: /data/clickhouse/clickhouse-server
+      - ./conf/metrika4.xml:/etc/clickhouse-server/metrika.xml
+      - ./conf/config.xml:/etc/clickhouse-server/config.xml
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  clickhouse5:
+    image: yandex/clickhouse-server:21.9
+    volumes:
+      - type: volume
+        source: clickhouse5
+        target: /data/clickhouse/clickhouse-server
+      - ./conf/metrika5.xml:/etc/clickhouse-server/metrika.xml
+      - ./conf/config.xml:/etc/clickhouse-server/config.xml
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  clickhouse6:
+    image: yandex/clickhouse-server:21.9
+    volumes:
+      - type: volume
+        source: clickhouse6
+        target: /data/clickhouse/clickhouse-server
+      - ./conf/metrika6.xml:/etc/clickhouse-server/metrika.xml
+      - ./conf/config.xml:/etc/clickhouse-server/config.xml
     ulimits:
       nofile:
         soft: 262144
@@ -214,3 +277,8 @@ volumes:
   es:
   mysql:
   clickhouse:
+  clickhouse2:
+  clickhouse3:
+  clickhouse4:
+  clickhouse5:
+  clickhouse6:
