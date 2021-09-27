@@ -17,7 +17,7 @@ services:
         source: zkDataLogDir
         target: /datalog
 
-  kafka:
+  kafka1:
     image: wurstmeister/kafka:2.13-2.6.0
     ports:
       - target: 9092
@@ -32,7 +32,7 @@ services:
       HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet addr/{print $$2}' | awk -F':' '{print $$NF}'"
     volumes:
       - type: volume
-        source: kafka
+        source: kafka1
         target: /kafka
     depends_on:
       - zookeeper
@@ -121,10 +121,10 @@ services:
       CONFIG_STORAGE_TOPIC: my_connect_configs
       OFFSET_STORAGE_TOPIC: my_connect_offsets
       STATUS_STORAGE_TOPIC: my_connect_statuses
-      BOOTSTRAP_SERVERS: kafka:9092
+      BOOTSTRAP_SERVERS: kafka1:9092
     depends_on:
       - zookeeper
-      - kafka
+      - kafka1
       - mysql
 
   canal_connect:
@@ -141,19 +141,19 @@ services:
     environment:
       - canal.instance.global.spring.xml=classpath:spring/default-instance.xml
       - canal.zkServers=zookeeper:2181
-      - kafka.bootstrap.servers=kafka:9092
+      - kafka.bootstrap.servers=kafka1:9092
       - canal.serverMode=kafka
       - canal.instance.master.address=mysql:3306
       - canal.instance.dbUsername=root
       - canal.instance.dbPassword=123456
       - canal.instance.filter.regex=test\..*
-    entrypoint: [ "/bin/bash", "-c", "sed -i -e 's/kafka.bootstrap.servers.*/kafka.bootstrap.servers = kafka:9092/' /home/admin/canal-server/conf/canal.properties && /alidata/bin/main.sh /home/admin/app.sh" ]
+    entrypoint: [ "/bin/bash", "-c", "sed -i -e 's/kafka.bootstrap.servers.*/kafka.bootstrap.servers = kafka1:9092/' /home/admin/canal-server/conf/canal.properties && /alidata/bin/main.sh /home/admin/app.sh" ]
     depends_on:
-      - kafka
+      - kafka1
       - mysql
       - zookeeper
 
-  clickhouse:
+  clickhouse1:
     image: yandex/clickhouse-server:21.9
     ports:
       - target: 8123
@@ -166,9 +166,9 @@ services:
         mode: host
     volumes:
       - type: volume
-        source: clickhouse
+        source: clickhouse1
         target: /data/clickhouse/clickhouse-server
-      - ./conf/metrika.xml:/etc/clickhouse-server/metrika.xml
+      - ./conf/metrika1.xml:/etc/clickhouse-server/metrika.xml
       - ./conf/config.xml:/etc/clickhouse-server/config.xml
       - ./conf/clickhouse_test_user.xml:/etc/clickhouse-server/users.d/clickhouse_test_user.xml
     ulimits:
@@ -255,11 +255,11 @@ services:
 
   clickhouse_client:
     image: yandex/clickhouse-client:21.9
-    command: --host clickhouse
+    command: --host clickhouse1
     stdin_open: true
     tty: true
     depends_on:
-      - clickhouse
+      - clickhouse1
 
   oracle:
     image: oracleinanutshell/oracle-xe-11g:latest
@@ -274,17 +274,90 @@ services:
         mode: host
     environment:
       ORACLE_ALLOW_REMOTE: "true"
+
+  dns:
+    image: jpillora/dnsmasq
+    ports:
+      - "127.0.0.1:53:53/udp"
+    environment:
+      - TZ=Asia/Shanghai
+      - HTTP_USER=root
+      - HTTP_PASS=123456
+    volumes:
+      - ./conf/dnsmasq.conf:/etc/dnsmasq.conf
+
+  pulsar1:
+    image: apachepulsar/pulsar-all:2.8.1
+    volumes:
+      - ./conf/pulsar_broker1.conf:/pulsar/conf/broker.conf
+      - ./conf/pulsar_client.conf:/pulsar/conf/client.conf
+    command: /pulsar/bin/pulsar broker
+    depends_on:
+      - zookeeper
+      - bookie1
+      - bookie2
+      - bookie3
+      - pulsar2
+      - pulsar3
+      - dns
+
+  pulsar2:
+    image: apachepulsar/pulsar-all:2.8.1
+    volumes:
+      - ./conf/pulsar_broker2.conf:/pulsar/conf/broker.conf
+    command: /pulsar/bin/pulsar broker
+
+  pulsar3:
+    image: apachepulsar/pulsar-all:2.8.1
+    volumes:
+      - ./conf/pulsar_broker3.conf:/pulsar/conf/broker.conf
+    command: /pulsar/bin/pulsar broker
+
+  pulsarinit:
+    image: apachepulsar/pulsar-all:2.8.1
+    command: /pulsar/bin/pulsar initialize-cluster-metadata --cluster pulsar-cluster --zookeeper zookeeper:2181/pulsar --configuration-store zookeeper:2181/pulsar --web-service-url http://pulsar:8080,pulsar2:8080,pulsar3:8080 --web-service-url-tls https://pulsar:8443,pulsar2:8443,pulsar3:8443 --broker-service-url pulsar://pulsar:6650,pulsar2:6650,pulsar3:6650 --broker-service-url-tls pulsar+ssl://pulsar:6651,pulsar2:6651,pulsar3:6651
+
+  bookie1:
+    image: apachepulsar/pulsar-all:2.8.1
+    volumes:
+      - type: volume
+        source: pulsar1
+        target: /data
+      - ./conf/pulsar_bookkeeper1.conf:/pulsar/conf/bookkeeper.conf
+    command: /pulsar/bin/pulsar bookie
+
+  bookie2:
+    image: apachepulsar/pulsar-all:2.8.1
+    volumes:
+      - type: volume
+        source: pulsar2
+        target: /data
+      - ./conf/pulsar_bookkeeper2.conf:/pulsar/conf/bookkeeper.conf
+    command: /pulsar/bin/pulsar bookie
+
+  bookie3:
+    image: apachepulsar/pulsar-all:2.8.1
+    volumes:
+      - type: volume
+        source: pulsar3
+        target: /data
+      - ./conf/pulsar_bookkeeper3.conf:/pulsar/conf/bookkeeper.conf
+    command: /pulsar/bin/pulsar bookie
+
 volumes:
   zkDataDir:
   zkDataLogDir:
-  kafka:
+  kafka1:
   kafka2:
   kafka3:
   es:
   mysql:
-  clickhouse:
+  clickhouse1:
   clickhouse2:
   clickhouse3:
   clickhouse4:
   clickhouse5:
   clickhouse6:
+  pulsar1:
+  pulsar2:
+  pulsar3:
