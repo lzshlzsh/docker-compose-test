@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<yandex>
+    <users>
+        <test>
+            <password>123456</password>
+            <access_management>1</access_management>
+        </test>
+    </users>
+</yandex>
