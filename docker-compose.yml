@@ -111,7 +111,7 @@ services:
         target: /var/lib/mysql
 
   debezium_connect:
-    image: debezium/connect:1.3
+    image: debezium/connect:1.5
     ports:
       - target: 8083
         published: 8083
