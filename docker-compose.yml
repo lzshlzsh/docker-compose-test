@@ -97,7 +97,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai
     ports:
       - target: 3306
         published: 3307
