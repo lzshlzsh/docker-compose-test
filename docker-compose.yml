@@ -110,6 +110,21 @@ services:
         source: mysql
         target: /var/lib/mysql
 
+  mysql8:
+    image: mysql:8.0
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full
+    ports:
+      - target: 3306
+        published: 3308
+        protocol: tcp
+        mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - type: volume
+        source: mysql8
+        target: /var/lib/mysql
+
   debezium_connect:
     image: debezium/connect:1.5
     ports:
@@ -352,6 +367,7 @@ volumes:
   kafka3:
   es:
   mysql:
+  mysql8:
   clickhouse1:
   clickhouse2:
   clickhouse3:
