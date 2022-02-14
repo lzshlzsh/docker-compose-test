@@ -125,6 +125,19 @@
                 </replica>
             </shard>
         </cluster_3shards_1replics_2>
+        <cluster_1shards_2replics>
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>clickhouse1</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse2</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </cluster_1shards_2replics>
     </clickhouse_remote_servers>
 
     <zookeeper-servers>
