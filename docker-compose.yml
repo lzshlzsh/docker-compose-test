@@ -97,7 +97,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8
     ports:
       - target: 3306
         published: 3307
@@ -112,7 +112,7 @@ services:
 
   mysql8:
     image: mysql:8.0
-    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8
     ports:
       - target: 3306
         published: 3308
