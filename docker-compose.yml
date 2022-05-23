@@ -110,6 +110,21 @@ services:
         source: mysql
         target: /var/lib/mysql
 
+  mysql_slave:
+    image: mysql:5.7
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=124 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8
+    ports:
+      - target: 3306
+        published: 3309
+        protocol: tcp
+        mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - type: volume
+        source: mysql_slave
+        target: /var/lib/mysql
+
   mysql8:
     image: mysql:8.0
     command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8
@@ -123,6 +138,21 @@ services:
     volumes:
       - type: volume
         source: mysql8
+        target: /var/lib/mysql
+
+  mysql8_slave:
+    image: mysql:8.0
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=124 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8
+    ports:
+      - target: 3306
+        published: 3310
+        protocol: tcp
+        mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - type: volume
+        source: mysql8_slave
         target: /var/lib/mysql
 
   debezium_connect:
@@ -367,7 +397,9 @@ volumes:
   kafka3:
   es:
   mysql:
+  mysql_slave:
   mysql8:
+  mysql8_slave:
   clickhouse1:
   clickhouse2:
   clickhouse3:
