@@ -109,6 +109,8 @@ services:
       - type: volume
         source: mysql
         target: /var/lib/mysql
+    depends_on:
+      - mysql_slave
 
   mysql_slave:
     image: mysql:5.7
@@ -139,6 +141,8 @@ services:
       - type: volume
         source: mysql8
         target: /var/lib/mysql
+    depends_on:
+      - mysql8_slave
 
   mysql8_slave:
     image: mysql:8.0
