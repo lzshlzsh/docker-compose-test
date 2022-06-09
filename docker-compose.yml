@@ -402,7 +402,7 @@ services:
       - /home/lzs/.m2:/root/.m2
       - /home/lzs:/home/lzs
       - /data:/data
-    command: start_be.sh --daemon; start_fe.sh --daemon; tail -f /etc/profile
+    command: [ "/bin/bash", "-c", "start_be.sh --daemon && start_fe.sh --daemon && tail -f /etc/profile"]
     environment:
       DORIS_HOME: /doris/incubator-doris/output
       PATH: /doris/incubator-doris/output/fe/bin:/doris/incubator-doris/output/be/bin:/var/local/ldb-toolchain/bin/:/var/local/thirdparty/installed/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
