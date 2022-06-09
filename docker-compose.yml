@@ -393,6 +393,20 @@ services:
       - ./conf/pulsar_bookkeeper3.conf:/pulsar/conf/bookkeeper.conf
     command: /pulsar/bin/pulsar bookie
 
+  doris1:
+    image: apache/incubator-doris:build-env-ldb-toolchain-latest
+    volumes:
+      - type: volume
+        source: doris1
+        target: /doris
+      - /home/lzs/.m2:/root/.m2
+      - /home/lzs:/home/lzs
+      - /data:/data
+    command: start_be.sh --daemon; start_fe.sh --daemon; tail -f /etc/profile
+    environment:
+      DORIS_HOME: /doris/incubator-doris/output
+      PATH: /doris/incubator-doris/output/fe/bin:/doris/incubator-doris/output/be/bin:/var/local/ldb-toolchain/bin/:/var/local/thirdparty/installed/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 volumes:
   zkDataDir:
   zkDataLogDir:
@@ -413,3 +427,4 @@ volumes:
   pulsar1:
   pulsar2:
   pulsar3:
+  doris1:
