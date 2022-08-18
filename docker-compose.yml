@@ -407,6 +407,21 @@ services:
       DORIS_HOME: /doris/incubator-doris/output
       PATH: /doris/incubator-doris/output/fe/bin:/doris/incubator-doris/output/be/bin:/var/local/ldb-toolchain/bin/:/var/local/thirdparty/installed/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+  pg:
+    image: postgres:9
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: root
+    volumes:
+      - type: volume
+        source: pg
+        target: /var/lib/postgresql/data
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+        mode: host
+
 volumes:
   zkDataDir:
   zkDataLogDir:
@@ -428,3 +443,4 @@ volumes:
   pulsar2:
   pulsar3:
   doris1:
+  pg:
