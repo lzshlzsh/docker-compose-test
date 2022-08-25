@@ -363,7 +363,18 @@ services:
 
   pulsarinit:
     image: apachepulsar/pulsar-all:2.9.2
+    command: ls /
+    depends_on:
+      - pulsarinit_cluster
+      - pulsarinit_transaction
+
+  pulsarinit_cluster:
+    image: apachepulsar/pulsar-all:2.9.2
     command: /pulsar/bin/pulsar initialize-cluster-metadata --cluster pulsar-cluster --zookeeper zookeeper:2181/pulsar --configuration-store zookeeper:2181/pulsar --web-service-url http://pulsar1:8080,pulsar2:8080,pulsar3:8080 --web-service-url-tls https://pulsar1:8443,pulsar2:8443,pulsar3:8443 --broker-service-url pulsar://pulsar1:6650,pulsar2:6650,pulsar3:6650 --broker-service-url-tls pulsar+ssl://pulsar1:6651,pulsar2:6651,pulsar3:6651
+
+  pulsarinit_transaction:
+    image: apachepulsar/pulsar-all:2.9.2
+    command: /pulsar/bin/pulsar initialize-transaction-coordinator-metadata -cs zookeeper:2181/pulsar -c pulsar-cluster
 
   bookie1:
     image: apachepulsar/pulsar-all:2.9.2
