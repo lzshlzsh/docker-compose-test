@@ -363,7 +363,10 @@ services:
 
   pulsarinit:
     image: apachepulsar/pulsar-all:2.9.2
-    command: ls /
+    volumes:
+      - ./conf/pulsar_client.conf:/pulsar/conf/client.conf
+
+    command: /usr/bin/tail -f /etc/profile
     depends_on:
       - pulsarinit_cluster
       - pulsarinit_transaction
