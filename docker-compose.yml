@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   zookeeper:
+    platform: linux/x86_64
     image: zookeeper:3.6.1
     ports:
       - target: 2181
