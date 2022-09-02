@@ -18,6 +18,13 @@ services:
         source: zkDataLogDir
         target: /datalog
 
+  desktop-connector:
+    image: wenjunxiao/desktop-docker-connector
+    restart: on-failure
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+
   kafka1:
     image: wurstmeister/kafka:2.13-2.6.0
     ports:
