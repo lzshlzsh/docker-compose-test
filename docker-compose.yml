@@ -19,6 +19,7 @@ services:
         target: /datalog
 
   desktop-connector:
+    platform: linux/x86_64
     image: wenjunxiao/desktop-docker-connector
     restart: on-failure
     network_mode: "host"
@@ -26,6 +27,7 @@ services:
       - NET_ADMIN
 
   kafka1:
+    platform: linux/x86_64
     image: wurstmeister/kafka:2.13-2.6.0
     ports:
       - target: 9092
@@ -48,6 +50,7 @@ services:
       - kafka3
 
   kafka2:
+    platform: linux/x86_64
     image: wurstmeister/kafka:2.13-2.6.0
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -63,6 +66,7 @@ services:
       - zookeeper
 
   kafka3:
+    platform: linux/x86_64
     image: wurstmeister/kafka:2.13-2.6.0
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -78,6 +82,7 @@ services:
       - zookeeper
 
   es:
+    platform: linux/x86_64
     image: elasticsearch:7.9.0
     ports:
       - target: 9200
@@ -92,6 +97,7 @@ services:
         target: /var/lib/elasticsearch
 
   kibana:
+    platform: linux/x86_64
     image: kibana:7.9.0
     ports:
       - target: 5601
@@ -104,6 +110,7 @@ services:
       - es
 
   mysql:
+    platform: linux/x86_64
     image: mysql:5.7
     command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
@@ -121,6 +128,7 @@ services:
       - mysql_slave
 
   mysql_slave:
+    platform: linux/x86_64
     image: mysql:5.7
     command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=124 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
@@ -136,6 +144,7 @@ services:
         target: /var/lib/mysql
 
   mysql8:
+    platform: linux/x86_64
     image: mysql:8.0
     command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
@@ -153,6 +162,7 @@ services:
       - mysql8_slave
 
   mysql8_slave:
+    platform: linux/x86_64
     image: mysql:8.0
     command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=124 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
@@ -168,6 +178,7 @@ services:
         target: /var/lib/mysql
 
   debezium_connect:
+    platform: linux/x86_64
     image: debezium/connect:1.5
     ports:
       - target: 8083
@@ -185,6 +196,7 @@ services:
       - mysql
 
   canal_connect:
+    platform: linux/x86_64
     image: canal/canal-server:v1.1.5
     ports:
       - target: 11111
@@ -211,6 +223,7 @@ services:
       - zookeeper
 
   clickhouse1:
+    platform: linux/x86_64
     image: yandex/clickhouse-server:21.9
     ports:
       - target: 8123
@@ -241,6 +254,7 @@ services:
       - clickhouse6
 
   clickhouse2:
+    platform: linux/x86_64
     image: yandex/clickhouse-server:21.9
     volumes:
       - type: volume
@@ -255,6 +269,7 @@ services:
         hard: 262144
 
   clickhouse3:
+    platform: linux/x86_64
     image: yandex/clickhouse-server:21.9
     volumes:
       - type: volume
@@ -269,6 +284,7 @@ services:
         hard: 262144
 
   clickhouse4:
+    platform: linux/x86_64
     image: yandex/clickhouse-server:21.9
     volumes:
       - type: volume
@@ -283,6 +299,7 @@ services:
         hard: 262144
 
   clickhouse5:
+    platform: linux/x86_64
     image: yandex/clickhouse-server:21.9
     volumes:
       - type: volume
@@ -297,6 +314,7 @@ services:
         hard: 262144
 
   clickhouse6:
+    platform: linux/x86_64
     image: yandex/clickhouse-server:21.9
     volumes:
       - type: volume
@@ -311,6 +329,7 @@ services:
         hard: 262144
 
   clickhouse_client:
+    platform: linux/x86_64
     image: yandex/clickhouse-client:21.9
     command: --host clickhouse1
     stdin_open: true
@@ -319,6 +338,7 @@ services:
       - clickhouse1
 
   oracle:
+    platform: linux/x86_64
     image: oracleinanutshell/oracle-xe-11g:latest
     ports:
       - target: 1521
@@ -333,6 +353,7 @@ services:
       ORACLE_ALLOW_REMOTE: "true"
 
   dns:
+    platform: linux/x86_64
     image: jpillora/dnsmasq
     ports:
       - "127.0.0.1:53:53/udp"
@@ -344,6 +365,7 @@ services:
       - ./conf/dnsmasq.conf:/etc/dnsmasq.conf
 
   pulsar1:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.9.2
     user: root
     volumes:
@@ -359,6 +381,7 @@ services:
       - pulsar3
 
   pulsar2:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.9.2
     user: root
     volumes:
@@ -366,6 +389,7 @@ services:
     command: /pulsar/bin/pulsar broker
 
   pulsar3:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.9.2
     user: root
     volumes:
@@ -373,11 +397,13 @@ services:
     command: /pulsar/bin/pulsar broker
 
   pulsarinit:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.9.2
     user: root
     command: ["/bin/bash", "-c", "/pulsar/bin/pulsar initialize-cluster-metadata --cluster pulsar-cluster --zookeeper zookeeper:2181/pulsar --configuration-store zookeeper:2181/pulsar --web-service-url http://pulsar1:8080,pulsar2:8080,pulsar3:8080 --web-service-url-tls https://pulsar1:8443,pulsar2:8443,pulsar3:8443 --broker-service-url pulsar://pulsar1:6650,pulsar2:6650,pulsar3:6650 --broker-service-url-tls pulsar+ssl://pulsar1:6651,pulsar2:6651,pulsar3:6651 && /pulsar/bin/pulsar initialize-transaction-coordinator-metadata -cs zookeeper:2181/pulsar -c pulsar-cluster"]
 
   pulsarcli:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.10.0
     user: root
     volumes:
@@ -385,6 +411,7 @@ services:
     command: /usr/bin/tail -f /etc/profile
 
   bookie1:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.9.2
     user: root
     volumes:
@@ -395,6 +422,7 @@ services:
     command: /pulsar/bin/pulsar bookie
 
   bookie2:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.9.2
     user: root
     volumes:
@@ -405,6 +433,7 @@ services:
     command: /pulsar/bin/pulsar bookie
 
   bookie3:
+    platform: linux/x86_64
     image: apachepulsar/pulsar-all:2.9.2
     user: root
     volumes:
@@ -415,6 +444,7 @@ services:
     command: /pulsar/bin/pulsar bookie
 
   doris1:
+    platform: linux/x86_64
     image: apache/incubator-doris:build-env-ldb-toolchain-latest
     volumes:
       - type: volume
@@ -429,6 +459,7 @@ services:
       PATH: /doris/incubator-doris/output/fe/bin:/doris/incubator-doris/output/be/bin:/var/local/ldb-toolchain/bin/:/var/local/thirdparty/installed/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
   pg:
+    platform: linux/x86_64
     image: postgres:9
     environment:
       POSTGRES_PASSWORD: 123456
