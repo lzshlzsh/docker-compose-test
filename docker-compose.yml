@@ -27,7 +27,6 @@ services:
       - NET_ADMIN
 
   kafka1:
-    platform: linux/x86_64
     image: wurstmeister/kafka:2.13-2.6.0
     ports:
       - target: 9092
@@ -50,7 +49,6 @@ services:
       - kafka3
 
   kafka2:
-    platform: linux/x86_64
     image: wurstmeister/kafka:2.13-2.6.0
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -66,7 +64,6 @@ services:
       - zookeeper
 
   kafka3:
-    platform: linux/x86_64
     image: wurstmeister/kafka:2.13-2.6.0
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
