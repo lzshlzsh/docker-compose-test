@@ -368,13 +368,6 @@ services:
       - ./conf/pulsar_broker1.conf:/pulsar/conf/broker.conf
       - ./conf/pulsar_client.conf:/pulsar/conf/client.conf
     command: /pulsar/bin/pulsar broker
-    depends_on:
-      - zookeeper
-      - bookie1
-      - bookie2
-      - bookie3
-      - pulsar2
-      - pulsar3
 
   pulsar2:
     platform: linux/x86_64
@@ -405,6 +398,22 @@ services:
     volumes:
       - ./conf/pulsar_client.conf:/pulsar/conf/client.conf
     command: /usr/bin/tail -f /etc/profile
+
+  pulsar_proxy:
+    platform: linux/x86_64
+    image: apachepulsar/pulsar-all:2.10.0
+    user: root
+    volumes:
+      - ./conf/pulsar_proxy.conf:/pulsar/conf/proxy.conf
+    command: /pulsar/bin/pulsar proxy
+    depends_on:
+      - zookeeper
+      - bookie1
+      - bookie2
+      - bookie3
+      - pulsar1
+      - pulsar2
+      - pulsar3
 
   bookie1:
     platform: linux/x86_64
