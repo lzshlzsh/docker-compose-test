@@ -479,6 +479,18 @@ services:
         protocol: tcp
         mode: host
 
+  redis:
+    image: redis
+    volumes:
+      - type: volume
+        source: redis
+        target: /data
+    ports:
+      - target: 6379
+        published: 6379
+        protocol: tcp
+        mode: host
+
 volumes:
   zkDataDir:
   zkDataLogDir:
@@ -501,3 +513,4 @@ volumes:
   pulsar3:
   doris1:
   pg:
+  redis:
