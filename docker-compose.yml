@@ -490,6 +490,10 @@ services:
         published: 6379
         protocol: tcp
         mode: host
+    command:
+      - "redis-server"
+      - "--requirepass"
+      - "123456"
 
 volumes:
   zkDataDir:
