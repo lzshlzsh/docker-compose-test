@@ -472,6 +472,66 @@ services:
       - "--requirepass"
       - "123456"
 
+  mongo1:
+    image: mongo:4.4
+    volumes:
+      - type: volume
+        source: mongo1
+        target: /data
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
+    ports:
+      - target: 27017
+        published: 27017
+        protocol: tcp
+        mode: host
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "123456"
+    depends_on:
+      - mongo2
+      - mongo3
+
+  mongo2:
+    image: mongo:4.4
+    volumes:
+      - type: volume
+        source: mongo2
+        target: /data
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
+    ports:
+      - target: 27017
+        published: 27018
+        protocol: tcp
+        mode: host
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "123456"
+
+  mongo3:
+    image: mongo:4.4
+    volumes:
+      - type: volume
+        source: mongo3
+        target: /data
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
+    ports:
+      - target: 27017
+        published: 27019
+        protocol: tcp
+        mode: host
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "123456"
+
 volumes:
   zkDataDir:
   zkDataLogDir:
@@ -495,3 +555,6 @@ volumes:
   doris1:
   pg:
   redis:
+  mongo1:
+  mongo2:
+  mongo3:
