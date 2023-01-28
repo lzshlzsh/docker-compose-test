@@ -91,6 +91,7 @@ services:
         target: /var/lib/elasticsearch
 
   kibana:
+    platform: linux/x86_64
     image: kibana:7.9.0
     ports:
       - target: 5601
