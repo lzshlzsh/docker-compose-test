@@ -533,6 +533,55 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: "123456"
 
+  rmq_namesrv:
+    image: apache/rocketmq:4.9.4-alpine
+    volumes:
+      - type: volume
+        source: rmq
+        target: /home/rocketmq/logs
+    command: sh mqnamesrv
+    ports:
+      - target: 9876
+        published: 9876
+        protocol: tcp
+        mode: host
+
+  rmq_broker1:
+    image: apache/rocketmq:4.9.4-alpine
+    volumes:
+      - type: volume
+        source: rmq1
+        target: /home/rocketmq
+      - ./conf/rmq_broker1.conf:/opt/rocketmq/conf/broker.conf
+    command: sh mqbroker -c /opt/rocketmq/conf/broker.conf
+    environment:
+      - NAMESRV_ADDR=rmq_namesrv:9876
+
+  rmq_broker2:
+    image: apache/rocketmq:4.9.4-alpine
+    volumes:
+      - type: volume
+        source: rmq2
+        target: /home/rocketmq
+      - ./conf/rmq_broker2.conf:/opt/rocketmq/conf/broker.conf
+    command: sh mqbroker -c /opt/rocketmq/conf/broker.conf
+    environment:
+      - NAMESRV_ADDR=rmq_namesrv:9876
+
+  rmq:
+    image: apache/rocketmq-dashboard:1.0.0-centos
+    ports:
+      - target: 8080
+        published: 18080
+        protocol: tcp
+        mode: host
+    environment:
+      - NAMESRV_ADDR=rmq_namesrv:9876
+    depends_on:
+      - rmq_namesrv
+      - rmq_broker1
+      - rmq_broker2
+
 volumes:
   zkDataDir:
   zkDataLogDir:
@@ -559,3 +608,6 @@ volumes:
   mongo1:
   mongo2:
   mongo3:
+  rmq:
+  rmq1:
+  rmq2:
