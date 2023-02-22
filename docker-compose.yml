@@ -533,7 +533,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: "123456"
 
-  rmq_namesrv:
+  rmq0:
     image: apache/rocketmq:4.9.4-alpine
     volumes:
       - type: volume
@@ -546,7 +546,7 @@ services:
         protocol: tcp
         mode: host
 
-  rmq_broker1:
+  rmq1:
     image: apache/rocketmq:4.9.4-alpine
     volumes:
       - type: volume
@@ -555,9 +555,9 @@ services:
       - ./conf/rmq_broker1.conf:/opt/rocketmq/conf/broker.conf
     command: sh mqbroker -c /opt/rocketmq/conf/broker.conf
     environment:
-      - NAMESRV_ADDR=rmq_namesrv:9876
+      - NAMESRV_ADDR=rmq0:9876
 
-  rmq_broker2:
+  rmq2:
     image: apache/rocketmq:4.9.4-alpine
     volumes:
       - type: volume
@@ -566,7 +566,7 @@ services:
       - ./conf/rmq_broker2.conf:/opt/rocketmq/conf/broker.conf
     command: sh mqbroker -c /opt/rocketmq/conf/broker.conf
     environment:
-      - NAMESRV_ADDR=rmq_namesrv:9876
+      - NAMESRV_ADDR=rmq0:9876
 
   rmq:
     image: apache/rocketmq-dashboard:1.0.0-centos
@@ -576,11 +576,11 @@ services:
         protocol: tcp
         mode: host
     environment:
-      - NAMESRV_ADDR=rmq_namesrv:9876
+      - NAMESRV_ADDR=rmq0:9876
     depends_on:
-      - rmq_namesrv
-      - rmq_broker1
-      - rmq_broker2
+      - rmq0
+      - rmq1
+      - rmq2
 
 volumes:
   zkDataDir:
