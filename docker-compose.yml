@@ -538,8 +538,10 @@ services:
     volumes:
       - type: volume
         source: rmq
-        target: /home/rocketmq/logs
+        target: /home/rocketmq
     command: sh mqnamesrv
+    environment:
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin:/home/rocketmq/rocketmq-4.9.4/bin
     ports:
       - target: 9876
         published: 9876
