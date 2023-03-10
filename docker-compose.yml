@@ -77,7 +77,7 @@ services:
       - zookeeper
 
   es:
-    image: elasticsearch:7.9.0
+    image: elasticsearch:7.17.9
     ports:
       - target: 9200
         published: 9200
@@ -91,8 +91,7 @@ services:
         target: /var/lib/elasticsearch
 
   kibana:
-    platform: linux/x86_64
-    image: kibana:7.9.0
+    image: kibana:7.17.9
     ports:
       - target: 5601
         published: 5601
@@ -104,7 +103,7 @@ services:
       - es
 
   mysql:
-    image: mysql:5.7
+    image: biarms/mysql:5.7
     command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
       - target: 3306
@@ -121,7 +120,7 @@ services:
       - mysql_slave
 
   mysql_slave:
-    image: mysql:5.7
+    image: biarms/mysql:5.7
     command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=124 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
       - target: 3306
