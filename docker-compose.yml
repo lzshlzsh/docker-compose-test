@@ -583,6 +583,48 @@ services:
       - rmq1
       - rmq2
 
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - type: volume
+        source: prometheus
+        target: /prometheus
+      - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-admin-api"
+
+  pushgateway:
+    image: prom/pushgateway
+    ports:
+      - target: 9091
+        published: 9091
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: volume
+        source: pushgateway
+        target: /pushgateway
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: volume
+        source: grafana
+        target: /var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: 123456
+
+    depends_on:
+      - prometheus
+      - pushgateway
+
 volumes:
   zkDataDir:
   zkDataLogDir:
@@ -612,3 +654,6 @@ volumes:
   rmq:
   rmq1:
   rmq2:
+  prometheus:
+  pushgateway:
+  grafana:
