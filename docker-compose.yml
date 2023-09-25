@@ -442,7 +442,7 @@ services:
       PATH: /doris/incubator-doris/output/fe/bin:/doris/incubator-doris/output/be/bin:/var/local/ldb-toolchain/bin/:/var/local/thirdparty/installed/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
   pg:
-    image: postgres:14
+    image: postgres:15
     environment:
       POSTGRES_PASSWORD: 123456
       POSTGRES_USER: root
