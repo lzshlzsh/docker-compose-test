@@ -324,6 +324,7 @@ services:
       - clickhouse1
 
   oracle:
+    # sqlplus sys/oracle as sysdba
     image: oracleinanutshell/oracle-xe-11g:latest
     ports:
       - target: 1521
