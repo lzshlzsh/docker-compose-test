@@ -324,7 +324,7 @@ services:
       - clickhouse1
 
   oracle11:
-    #sqlplus flinkuser/flinkpw
+    #sqlplus flinkuser/flinkpw@XE
     image: yuxialuo/oracle-xe-11g-r2-cdc-demo:v1.0
     ports:
       - target: 1521
@@ -333,7 +333,7 @@ services:
         mode: host
 
   oracle19:
-    #sqlplus debezium/dbz@localhost:1521/ORCLCDB
+    #sqlplus debezium/dbz@ORCLCDB
     image: goodboy008/oracle-19.3.0-ee:non-cdb
     ports:
       - target: 1521
