@@ -323,20 +323,23 @@ services:
     depends_on:
       - clickhouse1
 
-  oracle:
-    # sqlplus sys/oracle as sysdba
-    image: oracleinanutshell/oracle-xe-11g:latest
+  oracle11:
+    #sqlplus flinkuser/flinkpw
+    image: yuxialuo/oracle-xe-11g-r2-cdc-demo:v1.0
     ports:
       - target: 1521
         published: 1521
         protocol: tcp
         mode: host
-      - target: 5500
-        published: 5500
+
+  oracle19:
+    #sqlplus debezium/dbz@localhost:1521/ORCLCDB
+    image: goodboy008/oracle-19.3.0-ee:non-cdb
+    ports:
+      - target: 1521
+        published: 1521
         protocol: tcp
         mode: host
-    environment:
-      ORACLE_ALLOW_REMOTE: "true"
 
   dns:
     image: jpillora/dnsmasq
