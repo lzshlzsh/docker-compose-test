@@ -325,15 +325,21 @@ services:
 
   oracle11:
     #sqlplus flinkuser/flinkpw@XE
+    #sqlplus "SYS/oracle" as sysdba
     image: yuxialuo/oracle-xe-11g-r2-cdc-demo:v1.0
     ports:
       - target: 1521
         published: 1521
         protocol: tcp
         mode: host
+    volumes:
+      - type: volume
+        source: oracle11
+        target: /u01/app/oracle/fast_recovery_area
 
   oracle19:
     #sqlplus debezium/dbz@ORCLCDB
+    #sqlplus / as sysdba
     image: goodboy008/oracle-19.3.0-ee:non-cdb
     ports:
       - target: 1521
@@ -661,3 +667,5 @@ volumes:
   prometheus:
   pushgateway:
   grafana:
+  oracle11:
+  oracle19:
