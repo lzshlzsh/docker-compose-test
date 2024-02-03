@@ -104,7 +104,7 @@ services:
 
   mysql:
     image: biarms/mysql:5.7
-    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=123 --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
       - target: 3306
         published: 3307
@@ -121,7 +121,7 @@ services:
 
   mysql_slave:
     image: biarms/mysql:5.7
-    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=124 --default-time-zone=Asia/Shanghai --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
+    command: --log-bin=mysql-bin --expire-logs-days=1 --server-id=124 --binlog-row-image=full --character-set-server=utf8 --gtid-mode=on --enforce-gtid-consistency=on --log-slave-updates=on
     ports:
       - target: 3306
         published: 3309
