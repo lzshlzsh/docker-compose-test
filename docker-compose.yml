@@ -24,6 +24,10 @@ services:
     cap_add:
       - NET_ADMIN
 
+  debug:
+    image: ccr.ccs.tencentyun.com/sammieliu/debugsuite
+    entrypoint: ["/usr/bin/tail", "-f", "/etc/bash.bashrc"]
+
   kafka1:
     image: wurstmeister/kafka:2.13-2.6.0
     ports:
