@@ -27,6 +27,10 @@ services:
   debug:
     image: ccr.ccs.tencentyun.com/sammieliu/debugsuite
     entrypoint: ["/usr/bin/tail", "-f", "/etc/bash.bashrc"]
+    volumes:
+      - type: volume
+        source: debug
+        target: /mount
 
   kafka1:
     image: wurstmeister/kafka:2.13-2.6.0
@@ -642,6 +646,7 @@ services:
 volumes:
   zkDataDir:
   zkDataLogDir:
+  debug:
   kafka1:
   kafka2:
   kafka3:
