@@ -26,7 +26,7 @@ services:
 
   debug:
     image: ccr.ccs.tencentyun.com/sammieliu/debugsuite
-    entrypoint: ["/usr/bin/tail", "-f", "/etc/bash.bashrc"]
+    entrypoint: [ "/usr/bin/tail", "-f", "/etc/bash.bashrc" ]
     volumes:
       - type: volume
         source: debug
@@ -235,7 +235,7 @@ services:
       - ./conf/metrika1.xml:/etc/clickhouse-server/metrika.xml
       - ./conf/config.xml:/etc/clickhouse-server/config.xml
       - ./conf/clickhouse_test_user.xml:/etc/clickhouse-server/users.d/clickhouse_test_user.xml
-    entrypoint: ["/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh"]
+    entrypoint: [ "/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh" ]
     ulimits:
       nofile:
         soft: 262144
@@ -257,7 +257,7 @@ services:
       - ./conf/metrika2.xml:/etc/clickhouse-server/metrika.xml
       - ./conf/config.xml:/etc/clickhouse-server/config.xml
       - ./conf/clickhouse_test_user.xml:/etc/clickhouse-server/users.d/clickhouse_test_user.xml
-    entrypoint: ["/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh"]
+    entrypoint: [ "/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh" ]
     ulimits:
       nofile:
         soft: 262144
@@ -272,7 +272,7 @@ services:
       - ./conf/metrika3.xml:/etc/clickhouse-server/metrika.xml
       - ./conf/config.xml:/etc/clickhouse-server/config.xml
       - ./conf/clickhouse_test_user.xml:/etc/clickhouse-server/users.d/clickhouse_test_user.xml
-    entrypoint: ["/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh"]
+    entrypoint: [ "/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh" ]
     ulimits:
       nofile:
         soft: 262144
@@ -287,7 +287,7 @@ services:
       - ./conf/metrika4.xml:/etc/clickhouse-server/metrika.xml
       - ./conf/config.xml:/etc/clickhouse-server/config.xml
       - ./conf/clickhouse_test_user.xml:/etc/clickhouse-server/users.d/clickhouse_test_user.xml
-    entrypoint: ["/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh"]
+    entrypoint: [ "/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh" ]
     ulimits:
       nofile:
         soft: 262144
@@ -302,7 +302,7 @@ services:
       - ./conf/metrika5.xml:/etc/clickhouse-server/metrika.xml
       - ./conf/config.xml:/etc/clickhouse-server/config.xml
       - ./conf/clickhouse_test_user.xml:/etc/clickhouse-server/users.d/clickhouse_test_user.xml
-    entrypoint: ["/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh"]
+    entrypoint: [ "/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh" ]
     ulimits:
       nofile:
         soft: 262144
@@ -317,7 +317,7 @@ services:
       - ./conf/metrika6.xml:/etc/clickhouse-server/metrika.xml
       - ./conf/config.xml:/etc/clickhouse-server/config.xml
       - ./conf/clickhouse_test_user.xml:/etc/clickhouse-server/users.d/clickhouse_test_user.xml
-    entrypoint: ["/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh"]
+    entrypoint: [ "/bin/bash", "-c", "chown clickhouse:clickhouse /data/clickhouse/clickhouse-server && runuser -u clickhouse /entrypoint.sh" ]
     ulimits:
       nofile:
         soft: 262144
@@ -391,7 +391,7 @@ services:
   pulsarinit:
     image: apachepulsar/pulsar-all:2.9.2
     user: root
-    command: ["/bin/bash", "-c", "/pulsar/bin/pulsar initialize-cluster-metadata --cluster pulsar-cluster --zookeeper zookeeper:2181/pulsar --configuration-store zookeeper:2181/pulsar --web-service-url http://pulsar1:8080,pulsar2:8080,pulsar3:8080 --web-service-url-tls https://pulsar1:8443,pulsar2:8443,pulsar3:8443 --broker-service-url pulsar://pulsar1:6650,pulsar2:6650,pulsar3:6650 --broker-service-url-tls pulsar+ssl://pulsar1:6651,pulsar2:6651,pulsar3:6651 && /pulsar/bin/pulsar initialize-transaction-coordinator-metadata -cs zookeeper:2181/pulsar -c pulsar-cluster"]
+    command: [ "/bin/bash", "-c", "/pulsar/bin/pulsar initialize-cluster-metadata --cluster pulsar-cluster --zookeeper zookeeper:2181/pulsar --configuration-store zookeeper:2181/pulsar --web-service-url http://pulsar1:8080,pulsar2:8080,pulsar3:8080 --web-service-url-tls https://pulsar1:8443,pulsar2:8443,pulsar3:8443 --broker-service-url pulsar://pulsar1:6650,pulsar2:6650,pulsar3:6650 --broker-service-url-tls pulsar+ssl://pulsar1:6651,pulsar2:6651,pulsar3:6651 && /pulsar/bin/pulsar initialize-transaction-coordinator-metadata -cs zookeeper:2181/pulsar -c pulsar-cluster" ]
 
   pulsarcli:
     image: apachepulsar/pulsar-all:2.10.0
@@ -454,7 +454,7 @@ services:
       - /home/lzs/.m2:/root/.m2
       - /home/lzs:/home/lzs
       - /data:/data
-    command: [ "/bin/bash", "-c", "start_be.sh --daemon && start_fe.sh --daemon && tail -f /etc/profile"]
+    command: [ "/bin/bash", "-c", "start_be.sh --daemon && start_fe.sh --daemon && tail -f /etc/profile" ]
     environment:
       DORIS_HOME: /doris/incubator-doris/output
       PATH: /doris/incubator-doris/output/fe/bin:/doris/incubator-doris/output/be/bin:/var/local/ldb-toolchain/bin/:/var/local/thirdparty/installed/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -527,11 +527,6 @@ services:
       - /bin/bash
       - -c
       - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
-    ports:
-      - target: 27017
-        published: 27018
-        protocol: tcp
-        mode: host
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: "123456"
@@ -546,11 +541,61 @@ services:
       - /bin/bash
       - -c
       - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "123456"
+
+  # rs.initiate({"_id":"rs","members":[{"_id":0,"host":"mongo4:27017",priority:3},{"_id":1,"host":"mongo5:27017",priority:2},{"_id":2,"host":"mongo6:27017",priority:0,slaveDelay:86400}]})
+  # password='123456'
+  # hosts='127.0.0.1:27018'
+  # db='admin'
+  # mongo mongodb://root:${password}@${hosts}/${db}?authSource=admin
+  mongo4:
+    image: mongo:4.4
+    volumes:
+      - type: volume
+        source: mongo4
+        target: /data
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
     ports:
       - target: 27017
-        published: 27019
+        published: 27018
         protocol: tcp
         mode: host
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "123456"
+    depends_on:
+      - mongo5
+      - mongo6
+
+  mongo5:
+    image: mongo:4.4
+    volumes:
+      - type: volume
+        source: mongo5
+        target: /data
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "123456"
+
+  mongo6:
+    image: mongo:4.4
+    volumes:
+      - type: volume
+        source: mongo6
+        target: /data
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "echo fsKpkFJn+MYHaQVQo0EynX0WVTgI6PiQiDkZjcSIAfU= >/data/mongo.keyfile && chown mongodb /data/mongo.keyfile && chmod 400 /data/mongo.keyfile && docker-entrypoint.sh --keyFile /data/mongo.keyfile --replSet rs"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: "123456"
@@ -675,6 +720,9 @@ volumes:
   mongo1:
   mongo2:
   mongo3:
+  mongo4:
+  mongo5:
+  mongo6:
   rmq:
   rmq1:
   rmq2:
