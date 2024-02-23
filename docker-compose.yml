@@ -695,7 +695,7 @@ services:
 
   # mysql -h127.0.0.1 -uroot -P9030
   # SHOW PROC '/frontends'\G
-  # ALTER SYSTEM ADD BACKEND "sr_be1:9050"; ALTER SYSTEM ADD BACKEND "sr_be2:9050"; ALTER SYSTEM ADD BACKEND "sr_be2:9050";
+  # ALTER SYSTEM ADD BACKEND "sr_be1:9050"; ALTER SYSTEM ADD BACKEND "sr_be2:9050"; ALTER SYSTEM ADD BACKEND "sr_be3:9050";
   # SHOW PROC '/backends'\G
   # SET PASSWORD FOR 'root' = PASSWORD('123456');
   # mysql -h127.0.0.1 -uroot -P9030 --binary-as-hex -p123456
