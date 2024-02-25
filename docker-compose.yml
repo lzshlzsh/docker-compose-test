@@ -701,6 +701,10 @@ services:
   # mysql -h127.0.0.1 -uroot -P9030 --binary-as-hex -p123456
   sr:
     image: ccr.ccs.tencentyun.com/sammieliu/starrocks_fe:3.2.3
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "rm -fv /usr/local/fe/bin/fe.pid && /usr/local/fe/bin/start_fe.sh"
     ports:
       - target: 8030
         published: 8030
@@ -721,6 +725,10 @@ services:
 
   sr_be1:
     image: ccr.ccs.tencentyun.com/sammieliu/starrocks_be:3.2.3
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "rm -fv /usr/local/be/bin/be.pid && /usr/local/be/bin/start_be.sh"
     volumes:
       - type: volume
         source: sr_be1
@@ -728,6 +736,10 @@ services:
 
   sr_be2:
     image: ccr.ccs.tencentyun.com/sammieliu/starrocks_be:3.2.3
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "rm -fv /usr/local/be/bin/be.pid && /usr/local/be/bin/start_be.sh"
     volumes:
       - type: volume
         source: sr_be2
@@ -735,6 +747,10 @@ services:
 
   sr_be3:
     image: ccr.ccs.tencentyun.com/sammieliu/starrocks_be:3.2.3
+    entrypoint:
+      - /bin/bash
+      - -c
+      - "rm -fv /usr/local/be/bin/be.pid && /usr/local/be/bin/start_be.sh"
     volumes:
       - type: volume
         source: sr_be3
