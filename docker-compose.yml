@@ -756,6 +756,26 @@ services:
         source: sr_be3
         target: /usr/local/be/storage
 
+  influxdb:
+    image: influxdb:2
+    ports:
+      - target: 8086
+        published: 8086
+        protocol: tcp
+        mode: host
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: root
+      DOCKER_INFLUXDB_INIT_PASSWORD: 123456abc
+      DOCKER_INFLUXDB_INIT_ORG: my-org
+      DOCKER_INFLUXDB_INIT_BUCKET: my-bucket
+      DOCKER_INFLUXDB_INIT_RETENTION: 1w
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: admin-token
+    volumes:
+      - type: volume
+        source: influxdb
+        target: /var/lib/influxdb2
+
 volumes:
   zkDataDir:
   zkDataLogDir:
@@ -798,3 +818,4 @@ volumes:
   sr_be1:
   sr_be2:
   sr_be3:
+  influxdb:
