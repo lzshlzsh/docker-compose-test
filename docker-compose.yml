@@ -757,7 +757,7 @@ services:
         target: /usr/local/be/storage
 
   influxdb:
-    image: influxdb:2
+    image: influxdb:1.8
     ports:
       - target: 8086
         published: 8086
