@@ -1,4 +1,4 @@
-.PHONY: sr_destory sr_init sr
+.PHONY: sr_destory sr_init sleep sr
 
 sr_destory:
 	docker-compose stop sr sr_be{1..3}
@@ -11,4 +11,7 @@ sr_init:
 	echo "SET PASSWORD FOR 'root' = PASSWORD('123456');" | mysql -h127.0.0.1 -uroot -P9030
 	echo "SHOW PROC '/frontends'; SHOW PROC '/backends'" | mysql -h127.0.0.1 -uroot -P9030 --binary-as-hex -p123456
 
-sr: sr_destory sr_init
+sleep:
+	sleep 15
+
+sr: sr_destory sleep sr_init
