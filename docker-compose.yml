@@ -31,7 +31,7 @@ services:
         target: /mount
 
   kafka1:
-    image: wurstmeister/kafka:2.13-2.6.0
+    image: wurstmeister/kafka:2.13-2.8.1
     ports:
       - target: 9092
         published: 9092
@@ -42,7 +42,11 @@ services:
       KAFKA_LOG_DIRS: /kafka
       KAFKA_NUM_PARTITIONS: 3
       KAFK_DEFAULT_REPLICATION_FACTOR: 3
-      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet addr/{print $$2}' | awk -F':' '{print $$NF}'"
+      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet /{print $$2}' | awk -F':' '{print $$NF}'"
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://_{HOSTNAME_COMMAND}:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENERS: INSIDE://_{HOSTNAME_COMMAND}:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
     volumes:
       - type: volume
         source: kafka1
@@ -53,13 +57,17 @@ services:
       - kafka3
 
   kafka2:
-    image: wurstmeister/kafka:2.13-2.6.0
+    image: wurstmeister/kafka:2.13-2.8.1
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181/kafka
       KAFKA_LOG_DIRS: /kafka
       KAFKA_NUM_PARTITIONS: 3
       KAFK_DEFAULT_REPLICATION_FACTOR: 3
-      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet addr/{print $$2}' | awk -F':' '{print $$NF}'"
+      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet /{print $$2}' | awk -F':' '{print $$NF}'"
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://_{HOSTNAME_COMMAND}:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENERS: INSIDE://_{HOSTNAME_COMMAND}:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
     volumes:
       - type: volume
         source: kafka2
@@ -68,13 +76,17 @@ services:
       - zookeeper
 
   kafka3:
-    image: wurstmeister/kafka:2.13-2.6.0
+    image: wurstmeister/kafka:2.13-2.8.1
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181/kafka
       KAFKA_LOG_DIRS: /kafka
       KAFKA_NUM_PARTITIONS: 3
       KAFK_DEFAULT_REPLICATION_FACTOR: 3
-      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet addr/{print $$2}' | awk -F':' '{print $$NF}'"
+      HOSTNAME_COMMAND: "ifconfig eth0 | awk '/inet /{print $$2}' | awk -F':' '{print $$NF}'"
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://_{HOSTNAME_COMMAND}:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENERS: INSIDE://_{HOSTNAME_COMMAND}:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
     volumes:
       - type: volume
         source: kafka3
