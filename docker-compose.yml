@@ -709,6 +709,10 @@ services:
   sr_new:
     image: starrocks/allin1-ubuntu
     ports:
+      - target: 8040
+        published: 8040
+        protocol: tcp
+        mode: host
       - target: 8030
         published: 8030
         protocol: tcp
