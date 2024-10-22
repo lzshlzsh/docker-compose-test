@@ -704,9 +704,7 @@ services:
       - pushgateway
 
   # mysql -h127.0.0.1 -uroot -P9030
-  # create user test;
-  # GRANT ALL PRIVILEGES ON *.* TO 'test'@'%';
-  # SET PASSWORD FOR 'test' = PASSWORD('123456');
+  # create user test IDENTIFIED BY '123456' DEFAULT ROLE 'root';
   # mysql -h127.0.0.1 -utest -P9030 --binary-as-hex -p123456
   sr_new:
     image: starrocks/allin1-ubuntu
