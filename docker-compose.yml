@@ -704,6 +704,7 @@ services:
       - pushgateway
 
   # mysql -h127.0.0.1 -uroot -P9030
+  # ALTER USER 'root'@'%' IDENTIFIED BY '123456@Hello';
   # create user test IDENTIFIED BY '123456@Hello' DEFAULT ROLE 'root';
   # mysql -h127.0.0.1 -utest -P9030 --binary-as-hex -p123456@Hello
   sr_new:
