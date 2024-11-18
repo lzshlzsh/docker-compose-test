@@ -129,7 +129,7 @@ services:
         protocol: tcp
         mode: host
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456@Hello
     volumes:
       - type: volume
         source: mysql
@@ -146,7 +146,7 @@ services:
         protocol: tcp
         mode: host
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456@Hello
     volumes:
       - type: volume
         source: mysql_slave
@@ -161,7 +161,7 @@ services:
         protocol: tcp
         mode: host
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456@Hello
     volumes:
       - type: volume
         source: mysql8
@@ -178,7 +178,7 @@ services:
         protocol: tcp
         mode: host
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456@Hello
     volumes:
       - type: volume
         source: mysql8_slave
@@ -704,8 +704,8 @@ services:
       - pushgateway
 
   # mysql -h127.0.0.1 -uroot -P9030
-  # create user test IDENTIFIED BY '123456' DEFAULT ROLE 'root';
-  # mysql -h127.0.0.1 -utest -P9030 --binary-as-hex -p123456
+  # create user test IDENTIFIED BY '123456@Hello' DEFAULT ROLE 'root';
+  # mysql -h127.0.0.1 -utest -P9030 --binary-as-hex -p123456@Hello
   sr_new:
     image: starrocks/allin1-ubuntu
     ports:
@@ -733,8 +733,8 @@ services:
   # SHOW PROC '/frontends'\G
   # ALTER SYSTEM ADD BACKEND "sr_be1:9050"; ALTER SYSTEM ADD BACKEND "sr_be2:9050"; ALTER SYSTEM ADD BACKEND "sr_be3:9050";
   # SHOW PROC '/backends'\G
-  # SET PASSWORD FOR 'root' = PASSWORD('123456');
-  # mysql -h127.0.0.1 -uroot -P9030 --binary-as-hex -p123456
+  # SET PASSWORD FOR 'root' = PASSWORD('123456@Hello');
+  # mysql -h127.0.0.1 -uroot -P9030 --binary-as-hex -p123456@Hello
   sr:
     image: ccr.ccs.tencentyun.com/sammieliu/starrocks_fe:3.1.6
     entrypoint:
