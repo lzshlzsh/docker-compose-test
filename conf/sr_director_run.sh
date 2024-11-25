@@ -121,6 +121,17 @@ check_fe_liveness()
     done
 }
 
+function set_root_password()
+{
+  if ! [ -r /data/deploy/starrocks/fe/meta/.root_password ]; then
+    loginfo "set root password..."
+    exec_sql_with_retry "ALTER USER 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';"
+    echo "$MYSQL_ROOT_PASSWORD" > /data/deploy/starrocks/fe/meta/.root_password
+    loginfo "set root password done!"
+  fi
+  echo "password=$MYSQL_ROOT_PASSWORD" >> $MYCNF
+}
+
 generate_my_cnf()
 {
     loginfo "generate my.cnf file ..."
@@ -133,6 +144,7 @@ port=$fequeryport
 column-names=FALSE
 connect-timeout=2
 EOF
+  set_root_password
 }
 
 exec_sql()

@@ -703,7 +703,7 @@ services:
       - prometheus
       - pushgateway
 
-  # mysql -h127.0.0.1 -uroot -P9030
+  # mysql -h127.0.0.1 -uroot -P9030 -p123456@Hello
   # ALTER USER 'root'@'%' IDENTIFIED BY '123456@Hello';
   # create user test IDENTIFIED BY '123456@Hello' DEFAULT ROLE 'root';
   # mysql -h127.0.0.1 -utest -P9030 --binary-as-hex -p123456@Hello
@@ -722,6 +722,8 @@ services:
         published: 9030
         protocol: tcp
         mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456@Hello
     volumes:
       - type: volume
         source: sr_fe
@@ -729,6 +731,7 @@ services:
       - type: volume
         source: sr_be
         target: /data/deploy/starrocks/be/storage
+      - ./conf/sr_director_run.sh:/data/deploy/starrocks/director/run.sh
 
   # mysql -h127.0.0.1 -uroot -P9030
   # SHOW PROC '/frontends'\G
