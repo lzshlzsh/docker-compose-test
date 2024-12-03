@@ -611,7 +611,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: "123456"
 
   rmq0:
-    image: apache/rocketmq:4.9.4-alpine
+    image: apache/rocketmq:4.9.7
     volumes:
       - type: volume
         source: rmq
@@ -626,7 +626,7 @@ services:
         mode: host
 
   rmq1:
-    image: apache/rocketmq:4.9.4-alpine
+    image: apache/rocketmq:4.9.7
     volumes:
       - type: volume
         source: rmq1
@@ -637,7 +637,7 @@ services:
       - NAMESRV_ADDR=rmq0:9876
 
   rmq2:
-    image: apache/rocketmq:4.9.4-alpine
+    image: apache/rocketmq:4.9.7
     volumes:
       - type: volume
         source: rmq2
@@ -648,7 +648,7 @@ services:
       - NAMESRV_ADDR=rmq0:9876
 
   rmq:
-    image: apache/rocketmq-dashboard:1.0.0-centos
+    image: apacherocketmq/rocketmq-dashboard:latest
     ports:
       - target: 8080
         published: 18080
