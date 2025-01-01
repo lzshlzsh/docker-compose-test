@@ -484,6 +484,7 @@ services:
         protocol: tcp
         mode: host
 
+  # acl setuser root >123456@Hello on allKeys allCommands
   redis:
     image: redis
     volumes:
@@ -498,7 +499,7 @@ services:
     command:
       - "redis-server"
       - "--requirepass"
-      - "123456"
+      - "123456@Hello"
 
   # rs.initiate({"_id":"rs","members":[{"_id":0,"host":"mongo1:27017",priority:3},{"_id":1,"host":"mongo2:27017",priority:2},{"_id":2,"host":"mongo3:27017",priority:0,slaveDelay:86400}]})
   # password='123456'
