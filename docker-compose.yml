@@ -484,6 +484,22 @@ services:
         protocol: tcp
         mode: host
 
+  gp:
+    image: projectairws/greenplum:latest
+    environment:
+      POSTGRES_PASSWORD: gpadmin
+      POSTGRES_USER: gpadmin
+    volumes:
+      - type: volume
+        source: greenplum
+        target: /gpdata
+      - ./conf/start_greenplum.sh:/app/start_greenplum.sh
+    ports:
+      - target: 5432
+        published: 15432
+        protocol: tcp
+        mode: host
+
   # acl setuser root >123456@Hello on allKeys allCommands
   redis:
     image: redis
@@ -905,6 +921,7 @@ volumes:
   pulsar3:
   doris1:
   pg:
+  greenplum:
   redis:
   mongo1:
   mongo2:
